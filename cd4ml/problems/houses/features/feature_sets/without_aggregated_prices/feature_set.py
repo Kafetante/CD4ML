@@ -38,12 +38,4 @@ class FeatureSet(FeatureSetBase):
         return {k: features[k] for k in self.params['derived_categorical_n_levels_dict'].keys()}
 
     def derived_features_numerical(self, base_features):
-        # some of these might not selected above
-        zipcode = base_features['zipcode']
-
-        features = {'avg_price_in_zip': ff.avg_price_by_zipcode(zipcode, self.info['zip_lookup']),
-                    'num_in_zip': ff.num_in_zipcode(zipcode, self.info['zip_lookup']),
-                    'avg_price_in_state': ff.avg_price_by_state(zipcode, self.info['zip_lookup']),
-                    'num_in_state': ff.num_in_state(zipcode, self.info['zip_lookup'])}
-
-        return {k: features[k] for k in self.params['derived_fields_numerical']}
+        return {}

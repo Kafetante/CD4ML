@@ -32,6 +32,9 @@ class Problem(ProblemBase):
         elif feature_set_name == 'simple':
             import cd4ml.problems.houses.features.feature_sets.simple.feature_set as default_features
             return default_features.get_feature_set
+        elif feature_set_name == 'without_aggregated_prices':
+            import cd4ml.problems.houses.features.feature_sets.without_aggregated_prices.feature_set as default_features
+            return default_features.get_feature_set
         else:
             raise ValueError("Featureset name {} is not valid".format(feature_set_name))
 

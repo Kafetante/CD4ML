@@ -1,0 +1,27 @@
+{
+  "feature_set_name": "without_aggregated_prices",
+  "extra_information_fields": [],
+  "base_categorical_n_levels_dict": {
+    "zipcode": 50000,
+    "style": 50
+  },
+  "base_fields_numerical": [
+    "lot_size_sf",
+    "beds",
+    "baths",
+    "year_built",
+    "kitchen_refurbished",
+    "square_feet",
+    "pool",
+    "parking",
+    "multi_family"
+  ],
+  "derived_categorical_n_levels_dict": {
+    "state": 100
+  },
+  "derived_fields_numerical": [],
+  "encoder_excluded_fields": [],
+  "encoder_untransformed_fields": [
+    "zipcode"
+  ]
+}
