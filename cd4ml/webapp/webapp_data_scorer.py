@@ -35,6 +35,7 @@ def get_form_from_model(spec_name, identifier, model: MLModel, initial_values=No
     prob = None
     if input_data is not None:
         prediction = model.predict_single_processed_row(input_data)
+
         if model.model_type == 'classifier':
             prob = model.predict_and_describe_prob_single_processed_row(input_data)
 

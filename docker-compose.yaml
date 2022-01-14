@@ -98,12 +98,6 @@ services:
       MLFLOW_S3_ENDPOINT_URL: http://minio:9000
       ACCESS_KEY: ${ACCESS_KEY}
       SECRET_KEY: ${SECRET_KEY}
-    deploy:
-        resources:
-            limits:
-              memory: 256M
-            reservations:
-              memory: 128M
     networks:
       - jenkins_nw
     depends_on: 
