@@ -33,7 +33,7 @@ class FeatureSet(FeatureSetBase):
 
     def derived_features_categorical(self, base_features):
         features = {'deck':  base_features['cabin'][0],
-                    'title': re.sub('.* ([A-Za-z]+)?\\..*', '\\1', base_features.get('name',''))}
+                    'title': re.sub('.* ([A-Za-z]+)?\\..*', '\\1', base_features.get('name', ''))}
         return {k: features[k] for k in self.params['derived_categorical_n_levels_dict'].keys()}
 
     def derived_features_numerical(self, base_features):

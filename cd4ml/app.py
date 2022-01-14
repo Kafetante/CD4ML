@@ -26,9 +26,9 @@ app = Flask(__name__,
 
 def make_page_for_scenario_and_identifier(scenario_name, identifier, request_data):
     model = cache.get_loaded_model_for_scenario_and_run_id(scenario_name, identifier)
-    header_text, form_div, prediction = get_form_from_model(scenario_name, identifier, model,
-                                                            initial_values=request_data)
-    return header_text, form_div, prediction
+    header_text, form_div, prediction, prob = get_form_from_model(scenario_name, identifier, model,
+                                                                  initial_values=request_data)
+    return header_text, form_div, prediction, prob
 
 
 def return_all_models_for_scenario(scenario):
@@ -68,12 +68,14 @@ def call_model_for_scenario_and_identifier(scenario_name, identifier=None):
             "error": "No content supplied"
         }
 
-    _, _, prediction = make_page_for_scenario_and_identifier(scenario_name, identifier, json_body)
+    _, _, prediction, prob = make_page_for_scenario_and_identifier(scenario_name, identifier, json_body)
     if prediction is not None:
         logging_object = dict(json_body)
         logging_object['prediction'] = prediction
         logging_object['scenario'] = scenario_name
         logging_object['identifier'] = identifier
+        if prob is not None:
+            logging_object['probabilities'] = prob
         fluentd_logger.log("prediction", logging_object)
 
     return prediction if prediction is not None else {
@@ -101,13 +103,15 @@ def return_webpage_for_scenario_and_identifier(scenario_name, identifier):
 
     # There is a model, run and return the output
     identifier_to_use = "latest" if identifier is None else identifier
-    _, form_div, prediction = make_page_for_scenario_and_identifier(scenario_name, identifier_to_use, form_data)
+    _, form_div, prediction, prob = make_page_for_scenario_and_identifier(scenario_name, identifier_to_use, form_data)
 
     if prediction is not None:
         logging_object = dict(form_data)
         logging_object['prediction'] = prediction
         logging_object['scenario'] = scenario_name
         logging_object['identifier'] = identifier
+        if prob is not None:
+            logging_object['probabilities'] = prob
         fluentd_logger.log("prediction", logging_object)
 
     return render_template("results.html",

@@ -61,7 +61,14 @@ class MLModel:
     def predict_prob_single_processed_row(self, processed_row):
         # same for prob
         self.logger.debug('processed_row', processed_row)
-        return list(self.predict_prob_processed_rows([processed_row]))[0]
+        return list(self.predict_processed_rows([processed_row], prob=True))[0]
+
+    def predict_and_describe_prob_single_processed_row(self, processed_row):
+        self.logger.debug('processed_row', processed_row)
+        prob = list(self.predict_processed_rows([processed_row], prob=True))[0]
+        classes = self.trained_model.classes_
+        combined = zip(classes, prob)
+        return ",".join(c + ":" + str(p) for (c, p) in list(combined))
 
     def predict_processed_rows(self, processed_row_stream, prob=False):
         # minibatch prediction is much faster because of overhead
