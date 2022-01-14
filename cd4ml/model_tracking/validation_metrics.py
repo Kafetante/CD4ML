@@ -31,6 +31,14 @@ def f1_score(true_target, prediction):
     return metrics.f1_score(true_target, prediction, average='macro')
 
 
+def precision_score(true_target, prediction):
+    return metrics.precision_score(true_target, prediction, average='macro')
+
+
+def recall_score(true_target, prediction):
+    return metrics.recall_score(true_target, prediction, average='macro')
+
+
 def roc_auc(true_target, prediction_prob, target_levels):
     # ROC AUC for classification
     return metrics.roc_auc_score(true_target, prediction_prob,
@@ -54,6 +62,10 @@ metric_funcs = {'roc_auc': {'function': roc_auc,
                               'runs_on': 'pred'},
                 'f1_score': {'function': f1_score,
                              'runs_on': 'pred'},
+                'precision_score': {'function': precision_score,
+                                    'runs_on': 'pred'},
+                'recall_score': {'function': recall_score,
+                                 'runs_on': 'pred'},
                 'num_validated': {'function': get_num_validated,
                                   'runs_on': 'pred'}}
 

@@ -1,0 +1,10 @@
+{
+  "feature_set_name": "default",
+  "extra_information_fields": ["name", "ticket", "boat", "body", "home dest"],
+  "base_categorical_n_levels_dict": {"pclass": 3, "sex": 2, "embarked":  3, "cabin":  2000},
+  "base_fields_numerical": ["age", "sibsp", "parch", "fare"],
+  "derived_categorical_n_levels_dict": {"deck": 10, "title": 50 },
+  "derived_fields_numerical": [ "age_decades"],
+  "encoder_excluded_fields": [],
+  "encoder_untransformed_fields": []
+}

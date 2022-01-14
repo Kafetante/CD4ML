@@ -1,0 +1,4 @@
+{
+  "categorical": ["pclass", "survived", "sex", "embarked", "cabin"],
+  "numerical": ["age", "sibsp", "parch", "fare", "survived_num"]
+}
