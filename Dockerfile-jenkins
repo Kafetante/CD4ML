@@ -6,7 +6,7 @@ RUN /usr/local/bin/install-plugins.sh blueocean:1.25.2 build-timestamp:1.0.3 tim
 USER root
 ENV FLUENTD_HOST "fluentd"
 ENV FLUENTD_PORT "24224"
-ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
+ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false -Xmx512m
 ENV JENKINS_URL "http://jenkins:10000"
 ENV ACCESS_KEY ${ACCESS_KEY}
 ENV SECRET_KEY ${SECRET_KEY}
