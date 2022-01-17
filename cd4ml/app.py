@@ -2,9 +2,8 @@
 Web app
 """
 import logging
-
 import requests
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_from_directory
 
 from cd4ml.logger.fluentd_logging import FluentdLogger
 from cd4ml.webapp.model_cache import ModelCache
@@ -58,6 +57,11 @@ def check_that_page_can_be_loaded(scenario_name, identifier):
 @app.route('/index.html', methods=['get'])
 def welcome():
     return render_template("index.html")
+
+
+@app.route('/favicon.ico')
+def static_from_root():
+    return send_from_directory(app.static_folder, request.path[1:])
 
 
 @app.route('/api/<scenario_name>/<identifier>', methods=['post'])
