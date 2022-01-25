@@ -68,7 +68,7 @@ class MLModel:
         prob = list(self.predict_processed_rows([processed_row], prob=True))[0]
         classes = self.trained_model.classes_
         combined = zip(classes, prob)
-        return ",".join(c + ":" + str(p) for (c, p) in list(combined))
+        return dict(combined)
 
     def predict_processed_rows(self, processed_row_stream, prob=False):
         # minibatch prediction is much faster because of overhead

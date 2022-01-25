@@ -38,7 +38,7 @@ class TestMLModel (unittest.TestCase):
 
     def test_predict_and_describe_prob_single_processed_row(self):
         prob = load_titanic_model().predict_and_describe_prob_single_processed_row(self.ROW_TITANIC)
-        assert prob == '0:0.395,1:0.605'
+        assert prob == {'0': 0.395, '1': 0.605}
 
     def test_groceries_predict_single_processed_row(self):
         pred = load_groceries_model().predict_single_processed_row(self.ROW_GROCERIES)

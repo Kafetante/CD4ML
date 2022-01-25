@@ -79,11 +79,12 @@ def call_model_for_scenario_and_identifier(scenario_name, identifier=None):
         logging_object['scenario'] = scenario_name
         logging_object['identifier'] = identifier
         if prob is not None:
-            logging_object['probabilities'] = prob
+            logging_object['probabilities'] = str(prob)
         fluentd_logger.log("prediction", logging_object)
 
-    return prediction if prediction is not None else {
-        "error": "No Model Available To Use"
+    return {
+        "prediction": prediction if prediction is not None else -1,
+        "probabilities": prob
     }
 
 
