@@ -6,7 +6,6 @@ from unittest.mock import MagicMock
 
 import mlflow
 import pandas as pd
-import pytest
 import requests_mock
 
 from cd4ml.webapp.model_cache import ModelCache
@@ -166,8 +165,9 @@ class TestModelCache:
                            content=model_as_bytes)
             mlflow.get_experiment_by_name = MagicMock(side_effect=get_experiment_id)
             mlflow.search_runs = MagicMock(side_effect=get_search_return_values)
-            loaded_model = cache.get_loaded_model_for_scenario_and_run_id("groceries", "123")
+            run_id, loaded_model = cache.get_loaded_model_for_scenario_and_run_id("groceries", "123")
             assert loaded_model is not None
+            assert run_id is "123"
 
         assert Path(tmp_path, "groceries", "123").exists()
 
@@ -243,8 +243,9 @@ class TestModelCache:
                            content=model_as_bytes)
             mlflow.get_experiment_by_name = MagicMock(side_effect=get_experiment_id)
             mlflow.search_runs = MagicMock(side_effect=get_search_return_values)
-            loaded_model = cache.get_loaded_model_for_scenario_and_run_id("groceries", "latest")
+            run_id, loaded_model = cache.get_loaded_model_for_scenario_and_run_id("groceries", "latest")
             assert loaded_model is not None
+            assert run_id is "456"
 
         assert Path(tmp_path, "groceries", "456").exists()
         assert not Path(tmp_path, "groceries", "123").exists()

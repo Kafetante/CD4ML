@@ -56,7 +56,7 @@ class ModelCache:
         if not model_path.exists():
             self.download_and_save_from_ml_flow(model_path, run_id)
 
-        return self.read_model(model_path)
+        return run_id, self.read_model(model_path)
 
     @lru_cache(maxsize=64)
     def read_model(self, model_path):
