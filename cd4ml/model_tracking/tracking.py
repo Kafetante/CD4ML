@@ -10,6 +10,7 @@ class Track:
         self.model_id = model_id
         self.logger = logging.getLogger(__name__)
         self.model = None
+        self.encoder = None
         self.params = dict()
         self.metrics = dict()
         self.plot = None
@@ -30,6 +31,8 @@ class Track:
         self._write_dictionary_to_file(self.params, filenames['ml_pipeline_params'])
         self._write_dictionary_to_file(self.metrics, filenames['model_metrics'])
         self._write_dictionary_to_file(self.specification, filenames['model_specification'])
+        if self.encoder is not None:
+            self.encoder.save(filenames['encoder'])
 
     def log_param(self, key, val):
         self.params[key] = val
@@ -48,8 +51,9 @@ class Track:
         for key, val in metrics.items():
             self.metrics[key] = val
 
-    def log_model(self, model):
+    def log_model(self, model, encoder):
         self.model = model
+        self.encoder = encoder
 
     def log_validation_plot(self, plot):
         self.plot = plot

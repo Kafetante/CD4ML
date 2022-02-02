@@ -207,7 +207,7 @@ class ProblemBase:
         self.logger.info('Validation time: {0:.1f} seconds'.format(runtime))
 
     def write_ml_model(self):
-        self.tracker.log_model(self.ml_model)
+        self.tracker.log_model(self.ml_model, self.encoder)
 
     def setup_tracker(self):
         self.tracker = tracking.Track(self.model_id, self.specification.spec)

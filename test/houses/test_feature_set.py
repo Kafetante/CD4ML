@@ -7,8 +7,7 @@ from cd4ml.problems.houses.features.feature_sets.simple.feature_set \
 feature_set_params_default_provided = {
     'feature_set_name': 'default',
     'extra_information_fields': [],
-    'base_categorical_n_levels_dict': {'zipcode': 50000,
-                                       'style': 50},
+    'base_categorical_n_levels_dict': {'style': 50},
     'base_fields_numerical': ['lot_size_sf', 'beds', 'baths', 'year_built',
                               'kitchen_refurbished', 'square_feet', 'pool',
                               'parking', 'multi_family'],
@@ -24,7 +23,6 @@ feature_set_params_simple_provided = {
     "feature_set_name": "feature_set_simple",
     "extra_information_fields": [],
     "base_categorical_n_levels_dict": {
-        "zipcode": 50000,
         "style": 50
     },
     "base_fields_numerical": [
@@ -58,7 +56,7 @@ def check_feature_set(use_json_file, feature_set_class):
         }
 
         feature_set_params_provided = feature_set_params_default_provided
-        delete_fields = []
+        delete_fields = ['price', 'sale_id', 'zipcode']
 
     elif feature_set_class == FeatureSetSimple:
         derived_info = {
@@ -67,7 +65,7 @@ def check_feature_set(use_json_file, feature_set_class):
         }
 
         feature_set_params_provided = feature_set_params_simple_provided
-        delete_fields = ['year_built', 'kitchen_refurbished', 'pool', 'parking', 'multi_family']
+        delete_fields = ['price', 'sale_id', 'zipcode', 'year_built', 'kitchen_refurbished', 'pool', 'parking', 'multi_family']
 
     else:
         raise ValueError('Unknown class')
@@ -115,16 +113,11 @@ def check_feature_set(use_json_file, feature_set_class):
                      'multi_family': 0,
                      'price': 820000}
 
-    assert feature_set.info == info
-
     features = feature_set.features(processed_row)
 
     expected = processed_row.copy()
 
     expected.update(derived_info)
-
-    del expected['price']
-    del expected['sale_id']
 
     for field in delete_fields:
         del expected[field]

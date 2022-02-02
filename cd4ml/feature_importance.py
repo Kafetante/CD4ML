@@ -1,4 +1,5 @@
 import logging
+
 logger = logging.getLogger(__name__)
 
 
@@ -38,7 +39,7 @@ def get_feature_importance_linear_model(trained_model, encoder, print_features=T
 
 
 def get_feature_importance(trained_model, model_name, encoder, print_features=True):
-    if model_name in ['random_forest', 'random_forest_classifier', 'gradient_boosting', 'adaboost']:
+    if hasattr(trained_model, "feature_importances_"):
         return get_feature_importance_emsemble(trained_model, encoder, print_features=print_features)
     elif model_name in ['ridge', 'lasso']:
         return get_feature_importance_linear_model(trained_model, encoder, print_features=print_features)
