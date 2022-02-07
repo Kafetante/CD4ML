@@ -2,6 +2,7 @@
   "feature_set_name": "feature_set_simple",
   "extra_information_fields": [],
   "base_categorical_n_levels_dict": {
+    "zipcode": 50000,
     "style": 50
   },
   "base_fields_numerical": [
