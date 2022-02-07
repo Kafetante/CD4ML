@@ -4,7 +4,7 @@
 
 export PYTHONWARNINGS="ignore:numpy"
 
-command="python3 -m pytest --cov=cd4ml --cov-report html:cov_html test -k 'not TestModelCache'"
+command="python3 -m pytest --cov=cd4ml --cov-report html:cov_html test -m 'not integration'"
 
 echo "$command"
 eval "$command"

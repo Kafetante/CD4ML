@@ -1,7 +1,10 @@
+import pytest
+
 from scripts import pipeline as pipeline_script
 
 
-class TestModelCache:
+@pytest.mark.integration
+class TestAlgorithms:
 
     def test_pipeline_houses_ridge(self):
         pipeline_script.main(['houses', 'tiny_for_testing', 'default', 'ridge', 'default'])

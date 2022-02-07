@@ -5,6 +5,9 @@ import mlflow
 from mlflow import log_param, log_metric, log_artifacts, set_tag
 from cd4ml.filenames import get_model_files
 from cd4ml.utils.utils import get_json
+from cd4ml.webapp.model_cache import ModelCache
+
+cache = ModelCache()
 
 
 def log_model_metrics_file(file_path):
@@ -29,7 +32,6 @@ def register_model(model_id, host_name, did_pass_acceptance_test):
 
     file_names = get_model_files(model_id)
     specification = get_json(file_names['model_specification'])
-
     mlflow.set_experiment(specification['problem_name'])
 
     with mlflow.start_run(run_name=model_id):
@@ -45,3 +47,5 @@ def register_model(model_id, host_name, did_pass_acceptance_test):
         log_model_metrics_file(file_names["model_metrics"])
         log_ml_pipeline_params_file(file_names["ml_pipeline_params"])
         log_artifacts(file_names['results_folder'])
+        model = cache.read_model(file_names['full_model'])
+        mlflow.sklearn.log_model(model, "model")
