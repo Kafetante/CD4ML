@@ -1,19 +1,22 @@
+import json
+import logging
+from pathlib import Path
 from time import time
+
 import numpy as np
+from sklearn.metrics import confusion_matrix
+
+from cd4ml.feature_importance import get_feature_importance
 from cd4ml.get_encoder import get_trained_encoder
 from cd4ml.logger.fluentd_logging import FluentdLogger
+from cd4ml.ml_model import MLModel
 from cd4ml.model_tracking import tracking
 from cd4ml.model_tracking.validation_metrics import get_validation_metrics
-from cd4ml.utils.problem_utils import Specification
-from cd4ml.ml_model import MLModel
-from cd4ml.feature_importance import get_feature_importance
+from cd4ml.model_tracking.validation_plots import get_validation_plot, get_confusion_matrix_plot
 from cd4ml.splitter import splitter
-from cd4ml.model_tracking.validation_plots import get_validation_plot
+from cd4ml.utils.problem_utils import Specification
 from cd4ml.utils.utils import get_uuid
-from pathlib import Path
-import json
 
-import logging
 logger = logging.getLogger(__name__)
 
 
@@ -164,6 +167,11 @@ class ProblemBase:
                 validation_plot = get_validation_plot(true_validation_target,
                                                       validation_prediction)
                 self.tracker.log_validation_plot(validation_plot)
+            else:
+                matrix = confusion_matrix(true_validation_target, validation_prediction,
+                                          labels=self.ml_model.trained_model.classes_)
+                confusion_matrix_plot = get_confusion_matrix_plot(matrix, self.ml_model.trained_model.classes_)
+                self.tracker.log_confusion_matrix(confusion_matrix_plot)
 
             self.tracker.log_metrics(self.validation_metrics)
             self.fluentd_logger.log('validation_metrics', self.validation_metrics)

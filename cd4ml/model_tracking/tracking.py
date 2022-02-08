@@ -13,7 +13,8 @@ class Track:
         self.encoder = None
         self.params = dict()
         self.metrics = dict()
-        self.plot = None
+        self.validation_plot = None
+        self.confusion_matrix_plot = None
 
     def save_results(self):
         filenames = get_model_files(self.model_id)
@@ -22,12 +23,13 @@ class Track:
         if self.model is not None:
             self.model.save(filenames['full_model'])
 
-        if self.plot is not None:
+        if self.validation_plot is not None:
             import bokeh.plotting as bokeh_saver
-            bokeh_saver.save(obj=self.plot,
+            bokeh_saver.save(obj=self.validation_plot,
                              filename=filenames['validation_plot'],
                              title='Validation Plot')
-
+        if self.confusion_matrix_plot is not None:
+            self.confusion_matrix_plot.savefig(filenames['confusion_matrix'])
         self._write_dictionary_to_file(self.params, filenames['ml_pipeline_params'])
         self._write_dictionary_to_file(self.metrics, filenames['model_metrics'])
         self._write_dictionary_to_file(self.specification, filenames['model_specification'])
@@ -56,7 +58,10 @@ class Track:
         self.encoder = encoder
 
     def log_validation_plot(self, plot):
-        self.plot = plot
+        self.validation_plot = plot
+
+    def log_confusion_matrix(self, confusion_matrix):
+        self.confusion_matrix_plot = confusion_matrix
 
     def _write_dictionary_to_file(self, dict_to_write, output_file_name):
         if len(dict_to_write) == 0:
