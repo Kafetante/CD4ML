@@ -158,14 +158,11 @@ class ProblemBase:
         target_name = self.feature_set.target_field
         return (row[target_name] for row in stream)
 
-    def _write_validation_info(self):
-        true_validation_target = list(self.true_target_stream(self.validation_stream()))
-        validation_predictions = list(self.ml_model.predict_processed_rows(self.validation_stream()))
-
+    def _write_validation_info(self, true_validation_target, validation_prediction):
         if self.tracker:
             if self.ml_model.model_type == 'regressor':
                 validation_plot = get_validation_plot(true_validation_target,
-                                                      validation_predictions)
+                                                      validation_prediction)
                 self.tracker.log_validation_plot(validation_plot)
 
             self.tracker.log_metrics(self.validation_metrics)
@@ -180,6 +177,7 @@ class ProblemBase:
 
         true_validation_target = list(self.true_target_stream(self.validation_stream()))
         validation_prediction = list(self.ml_model.predict_processed_rows(self.validation_stream()))
+
         if self.ml_model.model_type == 'classifier':
             validation_pred_prob = np.array(list(self.ml_model.predict_processed_rows(self.validation_stream(),
                                                                                       prob=True)))
@@ -202,7 +200,7 @@ class ProblemBase:
                                                          target_levels)
 
         self.logger.info('Writing validation info')
-        self._write_validation_info()
+        self._write_validation_info(true_validation_target, validation_prediction)
         runtime = time() - start
         self.logger.info('Validation time: {0:.1f} seconds'.format(runtime))
 

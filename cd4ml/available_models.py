@@ -1,4 +1,5 @@
-from sklearn.tree import DecisionTreeRegressor
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
 from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, GradientBoostingRegressor
 from sklearn.linear_model import Ridge, Lasso
 from sklearn.ensemble import RandomForestClassifier
@@ -11,7 +12,11 @@ regressor_classes = {
         'ridge': Ridge,
         'lasso': Lasso}
 
-classifier_classes = {'random_forest_classifier': RandomForestClassifier}
+classifier_classes = {
+    'random_forest_classifier': RandomForestClassifier,
+    'decision_tree_classifier':  DecisionTreeClassifier,
+    'svc_classifier':  SVC
+}
 
 algorithm_classes = regressor_classes.copy()
 algorithm_classes.update(classifier_classes)

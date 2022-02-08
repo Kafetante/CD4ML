@@ -1,3 +1,5 @@
+from itertools import islice
+
 from cd4ml.problems.problem_base import ProblemBase
 from cd4ml.problems.houses.download_data.download_data import download
 import cd4ml.problems.houses.readers.stream_data as stream_data
@@ -35,11 +37,18 @@ class Problem(ProblemBase):
         elif feature_set_name == 'without_aggregated_prices':
             import cd4ml.problems.houses.features.feature_sets.without_aggregated_prices.feature_set as default_features
             return default_features.get_feature_set
+        elif feature_set_name == 'minimal':
+            import cd4ml.problems.houses.features.feature_sets.minimal.feature_set as default_features
+            return default_features.get_feature_set
         else:
             raise ValueError("Featureset name {} is not valid".format(feature_set_name))
 
     def prepare_feature_data(self):
         # do the work required to look up derived features
+        if self.feature_set_name == 'minimal':
+            self._stream_data = self.minimal_data()
+        if 'zipcode' not in self.feature_set.base_feature_fields_categorical():
+            return
         if self.feature_set is not None:
             self.feature_set.info['zip_lookup'] = zip_lookup.get_zip_lookup(self.problem_name)
 
@@ -84,3 +93,6 @@ class Problem(ProblemBase):
 
     def download_data(self):
         download()
+
+    def minimal_data(self):
+        return lambda problem: islice(stream_data.stream_data(problem), 1, 1000)

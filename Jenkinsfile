@@ -2,14 +2,14 @@ pipeline {
     agent any
     parameters {
         choice(name: 'problem_name', choices: ['houses', 'groceries', 'iris', 'titanic'], description: 'Choose the problem name')
-        editableChoice(name: 'ml_pipeline_params_name', defaultValue: 'default', description: 'Specify the ml_pipeline_params file',
-            choices: ['default', 'high_acceptance','more_training','tiny_for_testing'])
-        editableChoice(name: 'feature_set_name', defaultValue: 'default', description: 'Specify the feature_set name/file',
-            choices: ['default', 'simple','original','without_aggregated_prices'])
-        editableChoice(name: 'algorithm_name', defaultValue: 'default', description: 'Specify the algorithm (overrides problem_params)',
-            choices: ['default', 'decision_tree','gradient_boosting','lasso','random_forest','random_forest_classifier','ridge'])
-        editableChoice(name: 'algorithm_params_name', defaultValue: 'default', description: 'Specify the algorithm params',
-            choices: ['default', 'original','big_alpha'])
+        editableChoice(name: 'ml_pipeline_params_name', defaultValue: 'default', description: 'Specify the ml_pipeline_params file', 
+            choices: ['default', 'high_acceptance', 'more_training', 'tiny_for_testing'])
+        editableChoice(name: 'feature_set_name', defaultValue: 'default', description: 'Specify the feature_set name/file', 
+            choices: ['default', 'simple', 'original', 'without_aggregated_prices'])
+        editableChoice(name: 'algorithm_name', defaultValue: 'default', description: 'Specify the algorithm (overrides problem_params)', 
+            choices: ['default', 'decision_tree', 'gradient_boosting', 'lasso', 'random_forest', 'ridge', 'decision_tree_classifier', 'random_forest_classifier', 'svc_classifier'])
+        editableChoice(name: 'algorithm_params_name', defaultValue: 'default', description: 'Specify the algorithm params', 
+            choices: ['default', 'original', 'big_alpha'])
     }
     triggers {
         // Poll SCM every minute for new changes
