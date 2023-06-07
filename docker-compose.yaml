@@ -1,5 +1,23 @@
 version: "3.7"
 services:
+  reverse-proxy:
+    image: traefik:v2.10
+    ports:
+      - "80:80"
+      - "8080:8080"
+      - "443:443"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+    volumes:
+      - /etc/ssl/mycerts:/certs
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.yaml:/etc/traefik/traefik.yaml
+
+
   welcome:
     container_name: welcome_server
     restart: always
@@ -10,6 +28,11 @@ services:
       - ./public-html:/usr/local/apache2/htdocs/
     networks:
       - jenkins_nw
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.welcome.rule=Host(`mercury.andrena.de`)"
+      - "traefik.http.routers.welcome.entrypoints=websecure"
+      - "traefik.http.services.welcome.loadbalancer.server.port=3000"
 
   jenkins:
     container_name: jenkins
