@@ -1,0 +1,63 @@
+---
+- name: Install Docker
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - lsb-release
+          - curl
+          - gnupg
+        update_cache: true
+        state: latest
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/debian bullseye stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        update_cache: true
+        state: latest
+
+    - name: Show remote user
+      debug:
+        var: ansible_user
+
+    - name: Add remote user to "docker" group
+      user:
+        name: '{{ ansible_user }}'
+        groups: "docker"
+        append: yes
+
+    - name: Install docker-compose
+      get_url:
+        url: https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: '755'
+
+    - name: Create daemon.json with insecure registries to allow access to our registry
+      copy:
+        dest: /etc/docker/daemon.json
+        content: |
+          { "insecure-registries":["80.86.165.30:5000"] }
+
+    - name: Ensure docker deamon is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
