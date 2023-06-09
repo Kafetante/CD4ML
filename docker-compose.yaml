@@ -89,10 +89,10 @@ services:
     depends_on:
       - jenkins
 
-  kib01:
+  kibana:
     image: docker.elastic.co/kibana/kibana:7.16.3
     restart: always
-    container_name: kib01
+    container_name: kibana
     environment:
       ELASTICSEARCH_URL: http://es01:9200
       ELASTICSEARCH_HOSTS: http://es01:9200
@@ -105,7 +105,7 @@ services:
       - "traefik.http.routers.kibana.rule=Host(`kibana-mercury.andrena.de`)"
       - "traefik.http.routers.kibana.entrypoints=websecure"
       - "traefik.http.routers.kibana.tls=true"
-      - "traefik.http.routers.kibana.service=kib01"
+      - "traefik.http.routers.kibana.service=kibana"
       - "traefik.http.services.kibana.loadbalancer.server.port=5601"
 
 
