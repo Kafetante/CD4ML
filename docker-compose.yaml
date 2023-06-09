@@ -16,11 +16,6 @@ services:
       - /etc/ssl/mycerts:/etc/ssl/mycerts:ro
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik/configuration:/configuration:ro
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=Host(`kibana-mercury.andrena.de`)"
-      - "traefik.http.routers.api.tls=true"
-      - "traefik.http.routers.api.service=api@internal"
 
   welcome:
     container_name: welcome_server
