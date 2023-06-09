@@ -18,7 +18,7 @@ services:
       - ./traefik/configuration:/configuration:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=Host(`kibana.mercury.andrena.de`)"
+      - "traefik.http.routers.api.rule=Host(`kibana-mercury.andrena.de`)"
       - "traefik.http.routers.api.tls=true"
       - "traefik.http.routers.api.service=api@internal"
 
@@ -58,7 +58,7 @@ services:
       - jenkins_nw
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.jenkins.rule=Host(`jenkins.mercury.andrena.de`)"
+      - "traefik.http.routers.jenkins.rule=Host(`jenkins-mercury.andrena.de`)"
       - "traefik.http.routers.jenkins.entrypoints=websecure"
       - "traefik.http.routers.jenkins.tls=true"
       - "traefik.http.routers.jenkins.service=jenkins"
@@ -141,7 +141,7 @@ services:
       - minio
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.cd4ml.rule=Host(`cd4ml.mercury.andrena.de`)"
+      - "traefik.http.routers.cd4ml.rule=Host(`cd4ml-mercury.andrena.de`)"
       - "traefik.http.routers.cd4ml.entrypoints=websecure"
       - "traefik.http.routers.cd4ml.tls=true"
       - "traefik.http.routers.cd4ml.service=cd4ml"
@@ -187,7 +187,7 @@ services:
       - minio
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mlflow.rule=Host(`mlflow.mercury.andrena.de`)"
+      - "traefik.http.routers.mlflow.rule=Host(`mlflow-mercury.andrena.de`)"
       - "traefik.http.routers.mlflow.entrypoints=websecure"
       - "traefik.http.routers.mlflow.tls=true"
       - "traefik.http.routers.mlflow.service=mlflow"
