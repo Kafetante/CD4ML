@@ -1,0 +1,29 @@
+providers:
+  docker:
+    exposedByDefault: false
+  file:
+    directory: "/configuration/dynamic"
+    watch: true
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+api:
+  dashboard: true
+log:
+  level: DEBUG
+  format: "common"
+accessLog:
+  format: "common"
+  filters:
+    retryAttempts: true
+    minDuration: "2ms"
+  fields:
+    headers:
+      defaultMode: "keep"

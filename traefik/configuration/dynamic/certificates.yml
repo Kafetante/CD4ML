@@ -1,0 +1,6 @@
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: "/etc/ssl/mycerts/andrena.de.crt"
+        keyFile: "/etc/ssl/mycerts/andrena.key.nopasswd"
